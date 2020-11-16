@@ -1,0 +1,195 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+- ../pi4api-k8s-poc.yml
+- pingaccess
+- pingfederate
+
+patchesJson6902:
+  - target:
+      group: apps
+      version: v1
+      kind: StatefulSet
+      name: mongo
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/imagePullSecrets
+        value:
+            - name: regsecret
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: jbradleycpa/pingidentity:mongo-4.2
+  - target:
+      group: apps
+      version: v1 
+      kind: StatefulSet 
+      name: abs 
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/imagePullSecrets
+        value:
+            - name: regsecret
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: jbradleycpa/pingidentity:abs-4.3
+  - target:
+      group: apps
+      version: v1 
+      kind: StatefulSet 
+      name: ase 
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/imagePullSecrets
+        value:
+            - name: regsecret
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: jbradleycpa/pingidentity:ase-4.3
+      - op: replace 
+        path: /spec/template/spec/containers/0/env/1/value
+        value: "sideband"
+      - op: add 
+        path: /spec/template/spec/containers/0/env/9
+        value: 
+            name: "ENABLE_SIDEBAND_AUTHENTICATION"
+      - op: add
+        path: /spec/template/spec/containers/0/env/9/value
+        value: "true"
+  - target:
+      group: apps
+      version: v1 
+      kind: StatefulSet 
+      name: dashboard 
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/imagePullSecrets
+        value:
+            - name: regsecret
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: jbradleycpa/pingidentity:dashboard-4.3
+      - op: replace 
+        path: /spec/template/spec/containers/0/env/14/value
+        value: "sideband"
+      - op: add 
+        path: /spec/template/spec/containers/0/env/15
+        value: 
+            name: "DISCOVERY_SOURCE"
+      - op: add
+        path: /spec/template/spec/containers/0/env/15/value
+        value: "pingaccess"
+      - op: add 
+        path: /spec/template/spec/containers/0/env/16
+        value: 
+            name: "PINGACCESS_URL"
+      - op: add
+        path: /spec/template/spec/containers/0/env/16/value
+        value: "https://pingaccess-admin-ping-cloud-devops-eks-jasonbradley.ping-devops.com/"
+      - op: add 
+        path: /spec/template/spec/containers/0/env/17
+        value: 
+            name: "PINGACCESS_USERNAME"
+      - op: add
+        path: /spec/template/spec/containers/0/env/17/value
+        value: "Administrator"
+      - op: add 
+        path: /spec/template/spec/containers/0/env/18
+        value: 
+            name: "PINGACCESS_PASSWORD"
+      - op: add
+        path: /spec/template/spec/containers/0/env/18/value
+        value: "2SideBand"
+      - op: add 
+        path: /spec/template/spec/containers/0/env/19
+        value: 
+            name: "DISCOVERY_MODE"
+      - op: add
+        path: /spec/template/spec/containers/0/env/19/value
+        value: "manual"
+      - op: add 
+        path: /spec/template/spec/containers/0/env/20
+        value: 
+            name: "DISCOVERY_MODE_AUTO_DELETE_NON_DISCOVERED_APIS"
+      - op: add
+        path: /spec/template/spec/containers/0/env/20/value
+        value: "false"
+  - target:
+      group: 
+      version: v1 
+      kind: Service 
+      name: abs-external-service 
+    patch: |-
+      - op: replace
+        path: /spec/ports/0/nodePort
+        value: 32080
+      - op: replace
+        path: /spec/ports/1/nodePort
+        value: 32090
+  - target:
+      group: 
+      version: v1 
+      kind: Service 
+      name: ase-external-service 
+    patch: |-
+      - op: replace
+        path: /spec/ports/0/nodePort
+        value: 32000
+      - op: replace
+        path: /spec/ports/1/nodePort
+        value: 32443
+  - target:
+      group: 
+      version: v1 
+      kind: Service 
+      name: dashboard-external-service 
+    patch: |-
+      - op: replace
+        path: /spec/ports/0/nodePort
+        value: 32030
+  - target:
+      group: 
+      version: v1 
+      kind: ConfigMap 
+      name: abs-license
+    patch: |-
+      - op: replace
+        path: /data
+        value: 
+          PingIntelligence.lic: |-
+            ID=00090351
+            Module=ABS
+            MaxTransactionsPerMonth=100000
+            Product=PingIntelligence
+            Version=4.3
+            EnforcementType=3
+            Tier=Subscription
+            IssueDate=2020-11-12
+            ExpirationDate=2020-12-12
+            DeploymentMethod=Traditional
+            Organization=Ping Identity Corporation
+            SignCode=FF07
+            Signature=302C021469169B897492470B102DA965BDBA976ED81463B302147E87FD6E805595323D8B1511E0D77769CB26B12A
+  - target:
+      group: 
+      version: v1 
+      kind: ConfigMap 
+      name: ase-license
+    patch: |-
+      - op: replace
+        path: /data
+        value: 
+          PingIntelligence.lic: |-
+            ID=00090604
+            Module=ASE
+            MaxTransactionsPerMonth=100000
+            Product=PingIntelligence
+            Version=4.3
+            EnforcementType=3
+            Tier=Subscription
+            IssueDate=2020-11-13
+            ExpirationDate=2020-12-13
+            DeploymentMethod=Traditional
+            Organization=Ping Identity Corporation
+            SignCode=FF07
+            Signature=302D02150095C7BAE5B85E3A2E8F471F0A62716796F97B9F2E02147EFBE0E4EC6F8A252661B0FCF48C4BD8BC19B3E2
