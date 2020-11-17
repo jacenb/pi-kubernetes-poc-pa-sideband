@@ -16,7 +16,7 @@ patchesJson6902:
       name: mongo
     patch: |-
       - op: add
-        path: /spec/template/spec/containers/0/imagePullSecrets
+        path: /spec/template/spec/imagePullSecrets
         value:
             - name: regsecret
       - op: replace
@@ -29,7 +29,7 @@ patchesJson6902:
       name: abs 
     patch: |-
       - op: add
-        path: /spec/template/spec/containers/0/imagePullSecrets
+        path: /spec/template/spec/imagePullSecrets
         value:
             - name: regsecret
       - op: replace
@@ -42,7 +42,7 @@ patchesJson6902:
       name: ase 
     patch: |-
       - op: add
-        path: /spec/template/spec/containers/0/imagePullSecrets
+        path: /spec/template/spec/imagePullSecrets
         value:
             - name: regsecret
       - op: replace
@@ -65,7 +65,7 @@ patchesJson6902:
       name: dashboard 
     patch: |-
       - op: add
-        path: /spec/template/spec/containers/0/imagePullSecrets
+        path: /spec/template/spec/imagePullSecrets
         value:
             - name: regsecret
       - op: replace
