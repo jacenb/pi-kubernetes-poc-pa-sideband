@@ -2,9 +2,11 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
-- ../pi4api-k8s-poc.yml
-- pingaccess
-- pingfederate
+- pi4api-k8s-poc.yml
+- pingaccess/pa_configmap.yaml
+- pingaccess/pingaccess.yaml
+- pingfederate/pf_configmap.yaml
+- pingfederate/pingfederate.yaml
 
 patchesJson6902:
   - target:
@@ -157,19 +159,7 @@ patchesJson6902:
         path: /data
         value: 
           PingIntelligence.lic: |-
-            ID=00090351
-            Module=ABS
-            MaxTransactionsPerMonth=100000
-            Product=PingIntelligence
-            Version=4.3
-            EnforcementType=3
-            Tier=Subscription
-            IssueDate=2020-11-12
-            ExpirationDate=2020-12-12
-            DeploymentMethod=Traditional
-            Organization=Ping Identity Corporation
-            SignCode=FF07
-            Signature=302C021469169B897492470B102DA965BDBA976ED81463B302147E87FD6E805595323D8B1511E0D77769CB26B12A
+            
   - target:
       group: 
       version: v1 
@@ -180,16 +170,4 @@ patchesJson6902:
         path: /data
         value: 
           PingIntelligence.lic: |-
-            ID=00090604
-            Module=ASE
-            MaxTransactionsPerMonth=100000
-            Product=PingIntelligence
-            Version=4.3
-            EnforcementType=3
-            Tier=Subscription
-            IssueDate=2020-11-13
-            ExpirationDate=2020-12-13
-            DeploymentMethod=Traditional
-            Organization=Ping Identity Corporation
-            SignCode=FF07
-            Signature=302D02150095C7BAE5B85E3A2E8F471F0A62716796F97B9F2E02147EFBE0E4EC6F8A252661B0FCF48C4BD8BC19B3E2
+            
