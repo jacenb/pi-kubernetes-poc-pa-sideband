@@ -34,7 +34,7 @@ patchesJson6902:
             - name: regsecret
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: jbradleycpa/pingidentity:abs-4.3
+        value: jbradleycpa/pingidentity:abs-5.0
   - target:
       group: apps
       version: v1 
@@ -47,7 +47,7 @@ patchesJson6902:
             - name: regsecret
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: jbradleycpa/pingidentity:ase-4.3
+        value: jbradleycpa/pingidentity:ase-5.0
       - op: replace 
         path: /spec/template/spec/containers/0/env/1/value
         value: "sideband"
@@ -70,7 +70,7 @@ patchesJson6902:
             - name: regsecret
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: jbradleycpa/pingidentity:dashboard-4.3
+        value: jbradleycpa/pingidentity:dashboard-5.0
       - op: replace 
         path: /spec/template/spec/containers/0/env/14/value
         value: "sideband"
