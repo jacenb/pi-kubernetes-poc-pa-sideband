@@ -102,7 +102,7 @@ spec:
               value: "true"
           resources:
             limits:
-              cpu: "4"
+              cpu: "3"
               memory: 6Gi
             requests:
               cpu: "1"
@@ -186,10 +186,10 @@ spec:
               value: "false"
           resources:
             limits:
-              cpu: "6"
-              memory: 22Gi
-            requests:
               cpu: "3"
+              memory: 20Gi
+            requests:
+              cpu: "2"
               memory: 16Gi
           readinessProbe:
             tcpSocket:
@@ -285,7 +285,7 @@ spec:
               value: "false"
           resources:
             limits:
-              cpu: "4"
+              cpu: "2"
               memory: 8Gi
             requests:
               cpu: "1"
@@ -377,11 +377,11 @@ spec:
             - "/opt/pingidentity/dashboard/entrypoint.sh"
           resources:
             limits:
-              cpu: "6"
-              memory: 16Gi
-            requests:
               cpu: "2"
               memory: 6Gi
+            requests:
+              cpu: "1"
+              memory: 4Gi
           env:
             - name: TZ
               value: "Etc/UTC"
