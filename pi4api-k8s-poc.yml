@@ -177,7 +177,7 @@ spec:
             - name: TZ
               value: "Etc/UTC"
             - name: MONGO_RS
-              value: "mongo-0.mongo-internal-service"
+              value: "mongodb://mongo-0.mongo-internal-service"
             - name: MONGO_USERNAME
               value: "absuser"
             - name: MONGO_PASSWORD
